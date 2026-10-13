@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APEX CALC — Scientific Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Ambient background orbs -->
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
+
+    <!-- HEADER -->
+    <header class="main-header">
+        <div class="logo-section">
+            <div class="logo-mark">
+                <img src="Image/AP_KnightYT.png" alt="KnightYT" width="50px">
+            </div>
+            <div class="logo-text-group">
+                <span class="brand-name">APEX<span class="brand-accent">CALC</span></span>
+                <span class="brand-sub">Scientific Edition</span>
+            </div>
+        </div>
+
+        <div class="header-controls">
+            <div class="theme-dots">
+                <button class="tdot tdot-red active" onclick="setTheme('red')" title="Red"><img
+                        src="Image/Color/Red.png" width="100%"></button>
+                <button class="tdot tdot-blue" onclick="setTheme('blue')" title="Blue"><img src="Image/Color/blue.png"
+                        width="100%"></button>
+                <button class="tdot tdot-green" onclick="setTheme('green')" title="Green"><img
+                        src="Image/Color/green.png" width="100%"></button>
+                <button class="tdot tdot-purple" onclick="setTheme('purple')" title="Purple"><img
+                        src="Image/Color/purple.png" width="100%"></button>
+                <button class="tdot tdot-pink" onclick="setTheme('pink')" title="Pink"><img src="Image/Color/pink.png"
+                        width="100%"></button>
+            </div>
+            <button onclick="toggleHistory()" class="icon-btn" title="History">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- HISTORY SIDEBAR -->
+    <aside id="history-panel" class="history-sidebar">
+        <div class="sidebar-header">
+            <h2 class="sidebar-title">History</h2>
+            <button onclick="toggleHistory()" class="icon-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div id="history-list" class="history-list">
+            <div class="empty-state">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                    <path
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <p>No calculations yet</p>
+            </div>
+        </div>
+        <button onclick="clearHistory()" class="clear-hist-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            Clear History
+        </button>
+    </aside>
+    <div id="history-overlay" class="sidebar-overlay" onclick="toggleHistory()"></div>
+
+    <!-- MAIN CALCULATOR -->
+    <main class="calc-wrapper">
+        <div class="calc-shell">
+
+            <!-- Mode Toggle -->
+            <div class="mode-toggle">
+                <button class="mode-btn active" id="btn-basic" onclick="switchMode('basic')">Basic</button>
+                <button class="mode-btn" id="btn-sci" onclick="switchMode('scientific')">Scientific</button>
+                <div class="mode-slider"></div>
+            </div>
+
+            <!-- Display -->
+            <div class="display-area">
+                <div class="display-inner">
+                    <div class="expr-line" id="expr-display"></div>
+                    <div class="result-line" id="main-display">0</div>
+                    <div class="display-meta">
+                        <span id="angle-mode" class="meta-badge">DEG</span>
+                        <span id="mem-indicator" class="meta-badge hidden">M</span>
+                    </div>
+                </div>
+                <div class="display-shine"></div>
+            </div>
+
+            <!-- SCIENTIFIC PANEL -->
+            <div class="sci-panel" id="sci-panel">
+                <div class="sci-grid">
+                    <button onclick="sciFunc('sin')" class="btn-sci">sin</button>
+                    <button onclick="sciFunc('cos')" class="btn-sci">cos</button>
+                    <button onclick="sciFunc('tan')" class="btn-sci">tan</button>
+                    <button onclick="sciFunc('asin')" class="btn-sci">sin⁻¹</button>
+                    <button onclick="sciFunc('acos')" class="btn-sci">cos⁻¹</button>
+                    <button onclick="sciFunc('atan')" class="btn-sci">tan⁻¹</button>
+
+                    <button onclick="sciFunc('log')" class="btn-sci">log</button>
+                    <button onclick="sciFunc('ln')" class="btn-sci">ln</button>
+                    <button onclick="sciFunc('exp')" class="btn-sci">eˣ</button>
+                    <button onclick="sciFunc('pow2')" class="btn-sci">x²</button>
+                    <button onclick="sciFunc('pow3')" class="btn-sci">x³</button>
+                    <button onclick="sciFunc('powY')" class="btn-sci">xʸ</button>
+
+                    <button onclick="sciFunc('sqrt')" class="btn-sci">√x</button>
+                    <button onclick="sciFunc('cbrt')" class="btn-sci">∛x</button>
+                    <button onclick="sciFunc('inv')" class="btn-sci">1/x</button>
+                    <button onclick="sciFunc('abs')" class="btn-sci">|x|</button>
+                    <button onclick="sciFunc('fact')" class="btn-sci">n!</button>
+                    <button onclick="toggleAngle()" class="btn-sci btn-sci-special" id="angle-btn">DEG</button>
+
+                    <button onclick="insertConst('pi')" class="btn-sci btn-sci-const">π</button>
+                    <button onclick="insertConst('e')" class="btn-sci btn-sci-const">e</button>
+                    <button onclick="memStore()" class="btn-sci btn-sci-mem">MS</button>
+                    <button onclick="memRecall()" class="btn-sci btn-sci-mem">MR</button>
+                    <button onclick="memAdd()" class="btn-sci btn-sci-mem">M+</button>
+                    <button onclick="memClear()" class="btn-sci btn-sci-mem">MC</button>
+                </div>
+            </div>
+
+            <!-- BASIC BUTTONS -->
+            <div class="btn-grid" id="basic-grid">
+                <button onclick="clearAll()" class="btn c-danger span-1">AC</button>
+                <button onclick="deleteLast()" class="btn c-muted">⌫</button>
+                <button onclick="setOp('%')" class="btn c-accent">%</button>
+                <button onclick="setOp('/')" class="btn c-accent op-btn">÷</button>
+
+                <button onclick="numInput('7')" class="btn">7</button>
+                <button onclick="numInput('8')" class="btn">8</button>
+                <button onclick="numInput('9')" class="btn">9</button>
+                <button onclick="setOp('*')" class="btn c-accent op-btn">×</button>
+
+                <button onclick="numInput('4')" class="btn">4</button>
+                <button onclick="numInput('5')" class="btn">5</button>
+                <button onclick="numInput('6')" class="btn">6</button>
+                <button onclick="setOp('-')" class="btn c-accent op-btn">−</button>
+
+                <button onclick="numInput('1')" class="btn">1</button>
+                <button onclick="numInput('2')" class="btn">2</button>
+                <button onclick="numInput('3')" class="btn">3</button>
+                <button onclick="setOp('+')" class="btn c-accent op-btn">+</button>
+
+                <button onclick="toggleSign()" class="btn c-muted">±</button>
+                <button onclick="numInput('0')" class="btn">0</button>
+                <button onclick="numInput('.')" class="btn">.</button>
+                <button onclick="calculate()" class="btn c-eq">=</button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-inner">
+            <span class="footer-copy">© 2026 AP KnightYT · All rights reserved</span>
+            <div class="footer-links">
+                <a href="https://github.com/AP-Aman10" target="_blank" class="foot-link">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <img src="Image/Icon/github.png" width="20px">
+                    </svg>
+                    GitHub
+                </a>
+                <a href="https://youtube.com/@AP_KnightYT" target="_blank" class="foot-link yt-link">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <img src="Image/Icon/youtube.png" width="20px">
+                    </svg>
+                    YouTube
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
